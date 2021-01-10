@@ -1,0 +1,14 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "server for chat",
+  "private": true,
+  "dependencies": {
+    "express": "^4.17.1",
+    "http": "^0.0.1-security",
+    "socket.io": "^3.0.5"
+  },
+  "scripts": {
+    "dev": "node index.js"
+  }
+}
