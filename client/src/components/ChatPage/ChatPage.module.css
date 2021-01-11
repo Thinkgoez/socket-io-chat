@@ -22,19 +22,21 @@
   }
 
 .username{
-    color: #b01aff;
+    color: rgb(150, 150, 150);
+    font-weight: 500;
     overflow: hidden;
     padding-right: 15px;
     text-align: right;
 }
 
 .username.currentUser{
-    color: #84ff32;
+    color: #6cc92e;
 }
 
 
 .message{
-    color: #dbe6e3;
+    color: white;
+    font-weight: 300;
 }
 
 .inputForm{

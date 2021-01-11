@@ -7,21 +7,21 @@ import { Formik } from 'formik'
 import classes from './ChatPage.module.css'
 import { addNewMessage } from '../../redux/actions/actionsCreator'
 
-function ChatPage({ isLogin, handleSubmit, messages, currentUserName, ...props }) {
-    
+function ChatPage({ isLogin, handleSubmit, messages, ...props }) {
+
     const messagesEndRef = useRef(null)
 
     const scrollToBottom = () => {
-        if(messagesEndRef.current !== null) messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
+        if (messagesEndRef.current !== null) messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
     }
-    
+
     useEffect(scrollToBottom, [messages]);
     if (!isLogin) return (<Redirect to='/' />)
 
     return (
         <div className={classes.root}>
             <div className={classes.messageArea}>
-                <Messages messages={messages} currentUserName={currentUserName} />
+                <Messages messages={messages} />
                 <div ref={messagesEndRef} />
             </div>
             <InputForm handleSubmit={handleSubmit} />
@@ -30,19 +30,20 @@ function ChatPage({ isLogin, handleSubmit, messages, currentUserName, ...props }
     )
 }
 
-function Messages({ messages, currentUserName, ...props }) {
-    const isCurrentUser = (username) => currentUserName === username
+function Messages({ messages, ...props }) {
     return (
         <ul className={classes.messages}>
-            {messages.map(({ username = '', ...message }, id) => {
-                if (message.otherType) return (<li key={id} className={classes.log}>{message.message}</li>)
-                else return (<li key={id} className={classes.message}>
-                    <span className={classes.username + ' ' + (isCurrentUser(username) ? classes.currentUser : '')}>
-                        {username + (isCurrentUser(username) ? ' (you)' : '')}:
+            {messages.map(
+                ({ username = '', isOwn, ...message }, id) => {
+                    if (message.otherType) return (<li key={id} className={classes.log}>{message.message}</li>)
+                    else return (<li key={id} className={classes.message}>
+                        <span className={classes.username + ' ' + (isOwn ? classes.currentUser : '')}>
+                            {username + (isOwn ? ' (you)' : '')}:
                     </span>
-                    <span className={classes.message}>{message.message}</span>
-                </li>)
-            })}
+                        <span className={classes.message}>{message.message}</span>
+                    </li>)
+                }
+            )}
         </ul>
     )
 }
