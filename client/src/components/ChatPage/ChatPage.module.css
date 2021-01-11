@@ -22,10 +22,14 @@
   }
 
 .username{
-    color: #84ff32;
+    color: #b01aff;
     overflow: hidden;
     padding-right: 15px;
     text-align: right;
+}
+
+.username.currentUser{
+    color: #84ff32;
 }
 
 

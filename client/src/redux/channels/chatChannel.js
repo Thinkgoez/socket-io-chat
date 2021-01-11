@@ -1,10 +1,11 @@
 import { eventChannel, END } from 'redux-saga'
 
 import { SocketEvents } from '../constants/socketEvents'
+// import { createSocketConnection } from '../../api/soketApi'
 
+// const SOCKET = createSocketConnection()
 export function createLoginChannel(socket) {
     return eventChannel( emitter => {
-
         const loginHandler = (event) => {
             console.log(event);
             emitter(event)
@@ -59,7 +60,7 @@ export function createNewMessageChannel(socket) {
     return eventChannel( emitter => {
 
         const newMessageHandler = (event) => {
-            console.log(event)
+            console.log('message',event)
             emitter(event)
         }
 
@@ -67,7 +68,7 @@ export function createNewMessageChannel(socket) {
             emitter(new Error(errorEvent.reason))
         }
 
-        socket.on(SocketEvents.newMessage, newMessageHandler)
+        socket.on('new message', newMessageHandler)
         socket.on('error', errorHandler)
 
         const unsubscribe = () => {

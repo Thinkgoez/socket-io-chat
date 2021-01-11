@@ -4,7 +4,7 @@ import NotFoundPage from './components/NotFoundPage/NotFoundPage'
 import UserFormPage from './components/UserForm/UserForm'
 import ChatPage from './components/ChatPage/ChatPage'
 
-function App(props) {
+function App() {
     return (
         <Switch>
             <Route exact path='/chat'><ChatPage /></Route>

@@ -31,13 +31,6 @@ io.on('connection', (socket) => {
     console.log('connected');
     let addedUser = false;
     // when the client emits 'new message', this listens and executes
-    socket.on('new message', (data) => {
-        // we tell the client to execute 'new message'
-        socket.broadcast.emit('new message', {
-            username: socket.username,
-            message: data
-        });
-    });
 
     // when the client emits 'add user', this listens and executes
     socket.on('add user', (username) => {
@@ -55,6 +48,18 @@ io.on('connection', (socket) => {
             username: socket.username,
             numUsers: numUsers
         });
+    });
+
+    socket.on('new message', (data) => {
+        // we tell the client to execute 'new message'
+        // console.log(socket.username);
+        // console.log(socket);
+        let messageData = {
+            username: socket.username,
+            message: data
+        }
+        console.log(messageData)
+        socket.broadcast.emit('new message', messageData)
     });
 
     // when the user disconnects.. perform this

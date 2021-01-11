@@ -13,7 +13,15 @@ function UserForm({ handleSubmit, isLogin, ...props }) {
             <h1>Hello, what's is your name?</h1>
             <Formik
                 initialValues={{ username: '' }}
+                validate={values => {
+                    const errors = {};
+                    if (!values.username.trim()) {
+                        errors.username = 'Required';
+                    }
+                    return errors;
+                }}
                 onSubmit={(values, { resetForm }) => {
+                    console.log(values)
                     handleSubmit(values.username)
                     // resetForm({ username: '' })
                 }}
@@ -23,9 +31,12 @@ function UserForm({ handleSubmit, isLogin, ...props }) {
                     handleChange,
                     handleBlur,
                     handleSubmit,
+                    touched,
+                    errors
                 }) => (
                     <form onSubmit={handleSubmit}>
                         <div className={classes.inputField}>
+                            {errors.username && touched.username && errors.username}
                             <input
                                 autoComplete='off'
                                 autoFocus
