@@ -1,15 +1,21 @@
 import { Formik } from 'formik'
-import classes from './UserForm.module.css'
+import { connect } from 'react-redux'
 
-export default function UserForm({ handleSubmit, ...props }) {
+import classes from './UserForm.module.css'
+import { setUsername } from '../../redux/actions/actionsCreator'
+// import { Redirect } from 'react-router-dom'
+import ChatPage from '../ChatPage/ChatPage'
+
+function UserForm({ handleSubmit, isLogin, ...props }) {
+    if (isLogin) return (<ChatPage />)
     return (
         <div className={classes.root}>
             <h1>Hello, what's is your name?</h1>
             <Formik
                 initialValues={{ username: '' }}
                 onSubmit={(values, { resetForm }) => {
-                    handleSubmit(values)
-                    resetForm({ username: '' })
+                    handleSubmit(values.username)
+                    // resetForm({ username: '' })
                 }}
             >
                 {({
@@ -35,3 +41,9 @@ export default function UserForm({ handleSubmit, ...props }) {
         </div>
     )
 }
+
+const mapStateToProps = (state) => ({
+    isLogin: state.chat.isLogin,
+})
+
+export default connect(mapStateToProps, { handleSubmit: setUsername })(UserForm)

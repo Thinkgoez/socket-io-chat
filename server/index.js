@@ -1,10 +1,20 @@
 const express = require('express');
 const app = express();
 const server = require('http').createServer(app);
+
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT ,DELETE");
+    res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept"
+    );
+    next();
+})
+
 const io = require('socket.io')(server, {
     cors: {
         origin: "http://localhost:3000",
-        methods: ["GET", "POST"]
     }
 });
 const port = process.env.PORT || 3001;
@@ -18,8 +28,8 @@ server.listen(port, () => {
 let numUsers = 0;
 
 io.on('connection', (socket) => {
+    console.log('connected');
     let addedUser = false;
-
     // when the client emits 'new message', this listens and executes
     socket.on('new message', (data) => {
         // we tell the client to execute 'new message'
@@ -47,22 +57,9 @@ io.on('connection', (socket) => {
         });
     });
 
-    // when the client emits 'typing', we broadcast it to others
-    // socket.on('typing', () => {
-    //     socket.broadcast.emit('typing', {
-    //         username: socket.username
-    //     });
-    // });
-
-    // // when the client emits 'stop typing', we broadcast it to others
-    // socket.on('stop typing', () => {
-    //     socket.broadcast.emit('stop typing', {
-    //         username: socket.username
-    //     });
-    // });
-
     // when the user disconnects.. perform this
-    socket.on('disconnect', () => {
+    socket.on('disconnect', (reason) => {
+        console.log(reason);
         if (addedUser) {
             --numUsers;
 

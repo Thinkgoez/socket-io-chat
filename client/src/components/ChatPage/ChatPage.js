@@ -1,7 +1,14 @@
+import { Redirect } from 'react-router-dom'
 import { Formik } from 'formik'
-import classes from './ChatPage.module.css'
+import { connect } from 'react-redux'
 
-export default function ChatPage({ handleSubmit, ...props }) {
+import classes from './ChatPage.module.css'
+import { addNewMessage } from '../../redux/actions/actionsCreator'
+
+function ChatPage({ isLogin, handleSubmit, messages, ...props }) {
+
+    if (!isLogin) return (<Redirect to='/' />)
+    // console.log(messages);
 
     return (
         <div className={classes.root}>
@@ -55,3 +62,10 @@ function InputForm({ handleSubmit }) {
         </div>
     )
 }
+
+const mapStateToProps = (state) => ({
+    isLogin: state.chat.isLogin,
+    messages: state.chat.messageHistory,
+})
+
+export default connect(mapStateToProps, { handleSubmit: addNewMessage })(ChatPage)
