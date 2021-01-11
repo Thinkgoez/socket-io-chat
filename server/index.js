@@ -52,19 +52,16 @@ io.on('connection', (socket) => {
 
     socket.on('new message', (data) => {
         // we tell the client to execute 'new message'
-        // console.log(socket.username);
-        // console.log(socket);
         let messageData = {
             username: socket.username,
             message: data
         }
-        console.log(messageData)
         socket.broadcast.emit('new message', messageData)
     });
 
     // when the user disconnects.. perform this
     socket.on('disconnect', (reason) => {
-        console.log(reason);
+        console.log('disconnect, reason:', reason);
         if (addedUser) {
             --numUsers;
 
