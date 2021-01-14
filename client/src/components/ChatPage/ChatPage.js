@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Formik } from 'formik'
-
+import SendIcon from '@material-ui/icons/Send';
 
 import classes from './ChatPage.module.css'
 import { addNewMessage } from '../../redux/actions/actionsCreator'
@@ -54,8 +54,10 @@ function InputForm({ handleSubmit }) {
             <Formik
                 initialValues={{ message: '' }}
                 onSubmit={(values, { resetForm }) => {
-                    handleSubmit(values.message)
-                    resetForm({ message: '' })
+                    if (values.message.trim()) {
+                        handleSubmit(values.message)
+                        resetForm({ message: '' })
+                    }
                 }}
             >
                 {({
@@ -76,6 +78,7 @@ function InputForm({ handleSubmit }) {
                                 value={values.message}
                                 onBlur={handleBlur}
                             />
+                            <button className={classes.submitButton} type="submit"><SendIcon /></button>
                         </div>
                     </form>
                 )}

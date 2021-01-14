@@ -1,13 +1,13 @@
 import { Formik } from 'formik'
 import { connect } from 'react-redux'
+import SaveIcon from '@material-ui/icons/Save'
 
 import classes from './UserForm.module.css'
 import { setUsername } from '../../redux/actions/actionsCreator'
-// import { Redirect } from 'react-router-dom'
-import ChatPage from '../ChatPage/ChatPage'
+import { Redirect } from 'react-router-dom'
 
 function UserForm({ handleSubmit, isLogin, ...props }) {
-    if (isLogin) return (<ChatPage />)
+    if (isLogin) return (<Redirect to='/chat' />)
     return (
         <div className={classes.root}>
             <h1>Hello, what's is your name?</h1>
@@ -20,10 +20,8 @@ function UserForm({ handleSubmit, isLogin, ...props }) {
                     }
                     return errors;
                 }}
-                onSubmit={(values, { resetForm }) => {
-                    console.log(values)
+                onSubmit={(values) => {
                     handleSubmit(values.username)
-                    // resetForm({ username: '' })
                 }}
             >
                 {({
@@ -45,6 +43,7 @@ function UserForm({ handleSubmit, isLogin, ...props }) {
                                 value={values.username}
                                 onBlur={handleBlur}
                             />
+                            <button className={classes.submitButton} type="submit"><SaveIcon /></button>
                         </div>
                     </form>
                 )}

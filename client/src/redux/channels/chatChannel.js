@@ -1,13 +1,11 @@
 import { eventChannel, END } from 'redux-saga'
 
 import { SocketEvents } from '../constants/socketEvents'
-// import { createSocketConnection } from '../../api/soketApi'
 
-// const SOCKET = createSocketConnection()
 export function createLoginChannel(socket) {
     return eventChannel( emitter => {
         const loginHandler = (event) => {
-            console.log(event);
+            // console.log(event);
             emitter(event)
         }
 
@@ -32,11 +30,11 @@ export function createUserJoinedChannel(socket) {
     return eventChannel( emitter => {
 
         const userJoinedHandler = (event) => {
-            console.log(event)
+            // console.log(event)
             emitter({...event, type: 'joined'})
         }
         const userLeftHandler = (event) => {
-            console.log(event)
+            // console.log(event)
             emitter({...event, type: 'left'})
         }
 
@@ -60,7 +58,7 @@ export function createNewMessageChannel(socket) {
     return eventChannel( emitter => {
 
         const newMessageHandler = (event) => {
-            console.log('message',event)
+            // console.log('message',event)
             emitter(event)
         }
 
@@ -82,11 +80,11 @@ export function createConnectChannel(socket) {
     return eventChannel( emitter => {
 
         const connectHandler = (event) => {
-            console.log(event)
+            // console.log(event)
             emitter({type: 'connect'})
         }
         const disconnectHandler = (event) => {
-            console.log(event)
+            // console.log(event)
             emitter({type: 'disconnect'})
         }
 
@@ -101,8 +99,8 @@ export function createConnectChannel(socket) {
         socket.on('error', errorHandler)
 
         const unsubscribe = () => {
-            // socket.off('connect', connectHandler)
-            // socket.off('disconnect', disconnectHandler)
+            socket.off('connect', connectHandler)
+            socket.off('disconnect', disconnectHandler)
             emitter(END);
         }
         return unsubscribe

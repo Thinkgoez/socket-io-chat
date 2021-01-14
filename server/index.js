@@ -2,15 +2,15 @@ const express = require('express');
 const app = express();
 const server = require('http').createServer(app);
 
-app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT ,DELETE");
-    res.header(
-        "Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content-Type, Accept"
-    );
-    next();
-})
+// app.use(function (req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Methods", "GET, POST, PUT ,DELETE");
+//     res.header(
+//         "Access-Control-Allow-Headers",
+//         "Origin, X-Requested-With, Content-Type, Accept"
+//     );
+//     next();
+// })
 
 const io = require('socket.io')(server, {
     cors: {
@@ -52,6 +52,7 @@ io.on('connection', (socket) => {
 
     socket.on('new message', (data) => {
         // we tell the client to execute 'new message'
+        if (!data.trim()) return;
         let messageData = {
             username: socket.username,
             message: data

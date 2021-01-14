@@ -22,10 +22,8 @@ export default function chatReducer(state = initialState, action) {
                 ]
             }
         case Actions.LOG_MESSAGE:
-            console.log('LOG_MESSAGE action.data:', action.data);
             return { ...state, messageHistory: [...state.messageHistory, action.data] }
         case Actions.NEW_MESSAGE:
-            console.log('NEW_MESSAGE action.data:', action.data);
             return { ...state, messageHistory: [...state.messageHistory, action.data] }
         default:
             return state

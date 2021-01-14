@@ -1,7 +1,7 @@
 # Simple socket.io chat 
 
 Chat app created with [React](https://reactjs.org/), [redux-saga](https://redux-saga.js.org/docs/introduction/BeginnerTutorial.html), [socket.io](https://socket.io/docs/v3)./
-Working app [on heroku]()
+Working app [on heroku](https://whispering-journey-87651.herokuapp.com/)
 
 ## Aviable scripts
 

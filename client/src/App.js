@@ -10,7 +10,6 @@ function App() {
             <Route exact path='/chat'><ChatPage /></Route>
             <Route exact path='/'><UserFormPage /></Route>
             <Route component={NotFoundPage} />
-
         </Switch>
     )
 }
