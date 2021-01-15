@@ -3,13 +3,15 @@
     position: relative;
     right: 0;
     left: 0;
-    height: 88vh;
+    /* height: 88vh; */
     box-sizing: border-box;
     overflow-y: scroll;    
     /* block-size: auto; */
-}
+}   
 
 .messages{
+    margin: 0;
+    margin-bottom: 4vh;
     list-style: none;
     word-wrap: break-word;
     font-size: 150%;

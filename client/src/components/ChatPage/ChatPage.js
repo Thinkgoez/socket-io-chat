@@ -4,27 +4,30 @@ import { connect } from 'react-redux'
 import { Formik } from 'formik'
 import SendIcon from '@material-ui/icons/Send';
 
+import useWindowDimensions from '../../hooks/useWindowDimensions'
 import classes from './ChatPage.module.css'
 import { addNewMessage } from '../../redux/actions/actionsCreator'
 
 function ChatPage({ isLogin, handleSubmit, messages, ...props }) {
-
+    const { height } = useWindowDimensions();
     const messagesEndRef = useRef(null)
 
     const scrollToBottom = () => {
         if (messagesEndRef.current !== null) messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
     }
 
-    useEffect(scrollToBottom, [messages]);
+    useEffect(scrollToBottom, [messages,height]);
     if (!isLogin) return (<Redirect to='/' />)
 
+    const messageAreaHeight = height / 100 * 88 // 100 - %, 88 - custom vh
+    const inputFormHeight = height / 100 * 12 // 100 - %, 88 - custom vh
     return (
         <div className={classes.root}>
-            <div className={classes.messageArea}>
+            <div className={classes.messageArea} style={{ height: messageAreaHeight }}>
                 <Messages messages={messages} />
-                <div ref={messagesEndRef} />
+                <div ref={messagesEndRef} style={{ height: '10px' }} />
             </div>
-            <InputForm handleSubmit={handleSubmit} />
+            <InputForm handleSubmit={handleSubmit} height={inputFormHeight} />
 
         </div>
     )
@@ -48,9 +51,10 @@ function Messages({ messages, ...props }) {
     )
 }
 
-function InputForm({ handleSubmit }) {
+function InputForm({ handleSubmit, height }) {
+    const inputFocusRef = useRef(null)
     return (
-        <div className={classes.inputForm}>
+        <div className={classes.inputForm} style={{ height: height }}>
             <Formik
                 initialValues={{ message: '' }}
                 onSubmit={(values, { resetForm }) => {
@@ -58,6 +62,7 @@ function InputForm({ handleSubmit }) {
                         handleSubmit(values.message)
                         resetForm({ message: '' })
                     }
+                    inputFocusRef.current.focus()
                 }}
             >
                 {({
@@ -76,7 +81,8 @@ function InputForm({ handleSubmit }) {
                                 name="message"
                                 onChange={handleChange}
                                 value={values.message}
-                                onBlur={handleBlur}
+                                onBlur={(handleBlur)}
+                                ref={inputFocusRef}
                             />
                             <button className={classes.submitButton} type="submit"><SendIcon /></button>
                         </div>
